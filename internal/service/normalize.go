@@ -25,10 +25,10 @@ func normalizePBCandles(candles []*schema.Candle, interval uint32) []*schema.Can
 		to := candles[i].GetTs().GetSeconds()
 
 		for counter < to {
-			candle := *candles[i-1]
+			candle := copyGRPCCandle(candles[i-1])
 			candle.Ts = timestamppb.New(convertTimestampToTime(uint32(counter)))
 
-			candles = append(candles, &candle)
+			candles = append(candles, candle)
 
 			counter += int64(interval)
 		}
